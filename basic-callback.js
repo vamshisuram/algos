@@ -6,7 +6,20 @@ const asyncFn = callback => {
   }, 2000);
 }
 
-asyncFn((message) => {
+const asyncFnP = callback => {
+
+  const p = new Promise((resolve, rej) => {
+    // do something
+    // resolve or reject.
+    setTimeout(() => {
+      resolve("hi")
+    }, 5000);
+  })
+
+  p.then(callback);
+}
+
+asyncFnP((message) => {
   console.log(message);
 })
 
