@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+</head>
+<body>
+  <div id="root">hello</div>
+
+  <script>
+    const defaultState = {
+      // Routes to Widgets mapping
+      routes: {
+        'home': 'HomePage',
+        'billing': 'Billing'
+      },
+
+      // Widgets to bundles mapping
+      bundles: {
+        'HomePage': './home.js',
+        'Billing': './billing.js'
+      }
+    }
+
+    const app = (state = defaultState) => {
+      // check url
+      // get widget
+      // get bundle
+      // invoke class and render UI
+      const path = location.pathname.slice(1)
+      const widget = state.routes[path]
+      const bundle = state.bundles[widget]
+
+      if (path.length <= 1) return;
+      // fetch bundle
+      const scriptPromise = new Promise((resolve, reject) => {
+        const script = document.createElement('script');
+        document.body.appendChild(script);
+        script.onload = resolve;
+        script.onerror = reject;
+        script.async = true;
+        script.src = bundle;
+      });
+
+      scriptPromise.then((module) => {
+        const root = ReactDOM.createRoot(
+          document.getElementById('root')
+        );
+        root.render(module.element);
+      });
+
+      // fetch(bundle).then((response) => {
+      //   return response.text();
+      // }).then((text) => {
+      //   return eval(text);
+      // }).then((module) => {
+      //   const root = ReactDOM.createRoot(
+      //     document.getElementById('root')
+      //   );
+      //   root.render(module.element);
+      // })
+
+    }
+    app();
+  </script>
+  <script>
+    const clickHandler = (e) => {
+      const path = e.dataset.path;
+      const url = `${location.origin}${path}`;
+
+      history.pushState(null, null, url);
+      app();
+    }
+  </script>
+  <button data-path="/home" onclick="clickHandler(this)">
+    Go to Home
+  </button>
+  <button data-path="/billing" onclick="clickHandler(this)">
+    Go to billing
+  </button>
+</body>
+</html>
