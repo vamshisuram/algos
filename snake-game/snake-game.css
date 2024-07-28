@@ -1,0 +1,21 @@
+.cell {
+  width: 40px;
+  aspect-ratio: 1;
+  background: none;
+  border: 1px solid gray;
+}
+
+.snake {
+  background-color: steelblue;
+}
+
+.egg::before {
+  content: "🥚";
+}
+
+.row {
+  display: flex;
+  gap: 2px;
+  margin: 2px;
+  justify-content: center;
+}

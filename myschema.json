@@ -1,0 +1,25 @@
+{
+  "company": {
+    "Company": {
+      "parents": [
+        {
+          "path": "Query,company",
+          "filters": [
+            {
+              "path": "Query,company",
+              "name": "id",
+              "type": "ID",
+              "required": false,
+              "default": ""
+            }
+          ]
+        },
+        { "path": "Query,importedCompany,company", "filters": [] }
+      ],
+      "required": false,
+      "isArray": false,
+      "implementations": null,
+      "unionTypes": []
+    }
+  }
+}
