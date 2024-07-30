@@ -1,16 +1,22 @@
+body {
+  background-color: slategray;
+}
+
 .cell {
-  width: 40px;
+  width: 50px;
   aspect-ratio: 1;
   background: none;
-  border: 1px solid gray;
+  border: 1px solid black;
 }
 
 .snake {
-  background-color: steelblue;
+  background-color: #80faee;
 }
 
 .egg::before {
-  content: "🥚";
+  content: " 🚉";
+  /* " 🥚"; */
+  font-size: 40px;
 }
 
 .row {
