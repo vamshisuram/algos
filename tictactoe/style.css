@@ -1,0 +1,10 @@
+.row {
+  display: flex;
+}
+
+.cell {
+  width: 40px;
+  border: 1px solid gray;
+  margin: 3px;
+  aspect-ratio: 1;
+}
