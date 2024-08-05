@@ -1,0 +1,19 @@
+.children {
+  padding-left: 10px;
+}
+
+.parent {
+  display: flex;
+}
+
+.add-buttons {
+  display: none;
+}
+
+.head {
+  display: flex;
+}
+
+.head:hover + .add-buttons {
+  display: block;
+}
