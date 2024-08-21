@@ -1,0 +1,13 @@
+.container {
+  background-color: gray;
+  padding: 30px;
+  border: 10px solid black;
+}
+
+.draggable {
+  background-color: white;
+  height: 30px;
+  margin: 10px;
+  border: 2px solid black;
+  cursor: move;
+}
