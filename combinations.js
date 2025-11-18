@@ -24,4 +24,5 @@ function combinations(n, k) {
     return result;
 }
 
+// test
 console.log(JSON.stringify(combinations(4, 2)))
