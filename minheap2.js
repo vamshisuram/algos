@@ -39,8 +39,8 @@ let mh = new MinHeap()
 
 // 7 5 6 2 8 9 10 32
 
-mh.insert(7)
 mh.insert(5)
+mh.insert(7)
 mh.insert(6)
 mh.insert(2)
 mh.insert(8)
@@ -49,12 +49,12 @@ mh.insert(10)
 mh.insert(32)
 
 mh.remove()
-console.log(mh.collection);
+console.log(mh.data);
 
 mh.remove()
-console.log(mh.collection);
+console.log(mh.data);
 
 mh.remove()
-console.log(mh.collection);
+console.log(mh.data);
 
 
