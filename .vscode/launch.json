@@ -11,7 +11,8 @@
       "skipFiles": [
         "<node_internals>/**"
       ],
-      "program": "${file}"
+      "program": "${file}",
+      "runtimeExecutable": "/opt/homebrew/opt/node@22/bin/node"
     }
   ]
 }

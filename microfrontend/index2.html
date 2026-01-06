@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+</head>
+<body>
+  <div id="root">hello</div>
+
+  <script>
+    const defaultState = {
+      // Routes to Widgets mapping
+      routes: {
+        'home': 'HomePage',
+        'billing': 'Billing'
+      },
+
+      // Widgets to bundles mapping
+      bundles: {
+        'HomePage': '/home.js',
+        'Billing': '/billing.js'
+      }
+    }
+
+    const point = document.getElementById('root')
+    const root = ReactDOM.createRoot(point);
+
+    const app = (state = defaultState) => {
+      // check url
+      // get widget
+      // get bundle
+      // invoke class and render UI
+      const path = location.pathname.slice(1)
+      const widget = state.routes[path]
+      const bundle = state.bundles[widget]
+
+      if (path.length <= 1) return;
+
+      const renderModule = async (bundle) => {
+        const module = await import(bundle)
+        root.render(React.createElement(module.default))
+      };
+
+      renderModule(bundle);
+
+    }
+    app();
+  </script>
+  <script>
+    const clickHandler = (e) => {
+      const path = e.dataset.path;
+      const url = `${location.origin}${path}`;
+
+      history.pushState(null, null, url);
+      app();
+    }
+  </script>
+  <button data-path="/home" onclick="clickHandler(this)">
+    Go to Home
+  </button>
+  <button data-path="/billing" onclick="clickHandler(this)">
+    Go to billing
+  </button>
+</body>
+</html>

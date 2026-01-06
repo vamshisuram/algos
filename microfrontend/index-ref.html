@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dynamic import + React</title>
+
+    <!-- React UMD globals -->
+    <script src="https://unpkg.com/react@18/umdpment.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development"></script>
+</head>
+
+<body>
+    <nav>
+        <button data-path="/home" onclick="clickHandler(this)">Go to Home</button>
+        <button data-path="/billing" onclick="clickHandler(this)">Go to Billing</button>
+    </nav>
+    <div id="root">hello</div>
+
+    <!-- Router + dynamic import MUST be a module -->
+    <script type="module">
+        const defaultState = {
+            // Routes to Widgets mapping
+            routes: {
+                home: 'HomePage',
+                billing: 'Billing',
+            },
+            // Widgets to bundles mapping (use relative paths unless you serve from /)
+            bundles: {
+                HomePage: './home.js',
+                Billing: './billing.js',
+            },
+        };
+
+        const point = document.getElementById('root');
+        const root = ReactDOM.createRoot(point);
+
+        function getPathKey() {
+            // normalize "/home" -> "home", "/" -> ""
+            const p = location.pathname.replace(/^\/+/, '');
+            return p;
+        }
+
+        async function renderRoute(state = defaultState) {
+            const key = getPathKey();
+            if (!key) {
+                root.render(React.createElement('div', null, 'Pick a page ↑'));
+                return;
+            }
+
+            const widget = state.routes[key];
+            if (!widget) {
+                root.render(React.createElement('div', null, `404: Unknown route "${key}"`));
+                return;
+            }
+
+            const bundle = state.bundles[widget];
+            if (!bundle) {
+                root.render(React.createElement('div', null, `Bundle not found for "${widget}"`));
+                return;
+            }
+
+            try {
+                const mod = await import(bundle);
+                const Component = mod.default || mod[widget];
+                if (!Component) {
+                    throw new Error(`No default export in ${bundle}`);
+                }
+                root.render(React.createElement(Component, { title: widget }));
+            } catch (err) {
+                console.error(err);
+                root.render(React.createElement('div', null, `Failed to load: ${String(err.message || err)}`));
+            }
+        }
+
+        // Initial render
+        renderRoute();
+
+        // Handle back/forward
+        window.addEventListener('popstate', () => {
+            renderRoute();
+        });
+
+        // Expose click handler to global (since buttons use inline onclick)
+        window.clickHandler = (el) => {
+            const path = el.dataset.path; // receives the button element
+            const url = `${location.origin}${path}`;
+            history.pushState(null, '', url);
+            renderRoute();
+        };
+    </script>
+</body>
