@@ -1,6 +1,7 @@
 
 class Node {
-  // immediate children as keys (nodes) - which internally have their children
+  // immediate children as keys (nodes) 
+  // - which internally have their children
   keys = new Map()
   end = false
 }
@@ -41,7 +42,7 @@ class Trie {
   }
 }
 
-t = new Trie()
+let t = new Trie()
 t.add('abc')
 t.add('ade')
 t.add('xyz')
