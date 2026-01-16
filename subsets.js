@@ -15,11 +15,8 @@ function subsets(nums) {
 
     }
 
-
-
     backtrack(0)
     return result;
-
 
 }
 
