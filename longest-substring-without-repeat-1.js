@@ -19,7 +19,11 @@ function lengthOfLongestSubstring(str) {
             left = seen.get(ch) + 1;
         }
         seen.set(ch, right);
-        maxLen = Math.max(maxLen, right - left + 1);
+        const currwindow = right - left + 1;
+        if (currwindow > maxLen) {
+            bestStart = left;
+            maxLen = currwindow;
+        }
     }
     const out = str.slice(bestStart, bestStart + maxLen);
     console.log(out, out.length);
